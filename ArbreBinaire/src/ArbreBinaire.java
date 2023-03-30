@@ -206,6 +206,8 @@ public class ArbreBinaire {
                         parent.setGauche(min);
                         return true;
                     } else {
+                        System.out.println(min + " " + aSupr.GetGauche() + aSupr.GetDroite());
+                        rechercheParent(min.getCle()).setGauche(null);
                         min.setGauche(aSupr.GetGauche());
                         min.setDroite(aSupr.GetDroite());
                         parent.setGauche(min);
@@ -219,6 +221,7 @@ public class ArbreBinaire {
                         parent.setDroite(min);
                         return true;
                     } else {
+                        rechercheParent(min.getCle()).setGauche(null);
                         min.setGauche(aSupr.GetGauche());
                         min.setDroite(aSupr.GetDroite());
                         parent.setDroite(min);
@@ -329,7 +332,7 @@ public class ArbreBinaire {
         // System.out.println(test.ajout(e7));
         System.out.println(test.affichage());
         // System.out.println(test.suppression(e3));
-        System.out.println(test.suppression(e1));
+        System.out.println(test.suppression(e3));
         // System.out.println(test.calculHauteur());
         System.out.println(test.affichage());
         // System.out.println(test.rechercheNoeudAvecElement(e));
