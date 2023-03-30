@@ -1,26 +1,30 @@
 import java.lang.*;
-public class ArbreBinaire
-{
+
+public class ArbreBinaire {
     public Noeud racine;
 
-    public ArbreBinaire(){
+    public ArbreBinaire() {
         racine = null;
     }
-    public boolean isVide(){
+
+    public boolean isVide() {
         return racine == null;
     }
-    public ArbreBinaire(Element e){
+
+    public ArbreBinaire(Element e) {
         Noeud r = new Noeud(e);
         racine = r;
     }
-    public boolean ajout(Element e){
-        if(isVide()){
+
+    public boolean ajout(Element e) {
+        if (isVide()) {
             racine = new Noeud(e);
         }
         Noeud a = new Noeud(e);
-        return ajout(a,racine);
+        return ajout(a, racine);
     }
-    public boolean ajout(Noeud a , Noeud courrant) {
+
+    public boolean ajout(Noeud a, Noeud courrant) {
         if (a.getCle() != courrant.getCle()) {
             if (a.getCle() < courrant.getCle())
                 if (courrant.GetGauche() != null) {
@@ -40,6 +44,7 @@ public class ArbreBinaire
         }
         return false;
     }
+
     public String affichage() {
         return " " + affichage(racine);
     }
@@ -50,21 +55,24 @@ public class ArbreBinaire
         }
 
         if (courrant.isFeuille()) {
-            return (" " +courrant.getCle() + " ");
+            return (" " + courrant.getCle() + " ");
         } else if (affichage(courrant.GetGauche()).isEmpty()) {
             return courrant.getCle() + " , " + affichage(courrant.GetDroite());
         } else if (affichage(courrant.GetDroite()).isEmpty()) {
             return affichage(courrant.GetGauche()) + " , " + courrant.getCle();
         } else {
-            return affichage(courrant.GetGauche()) + " , " + courrant.getCle() + " , " + affichage(courrant.GetDroite());
+            return affichage(courrant.GetGauche()) + " , " + courrant.getCle() + " , "
+                    + affichage(courrant.GetDroite());
         }
     }
-    public Element recherche(int cle){
-        if (isVide()){
+
+    public Element recherche(int cle) {
+        if (isVide()) {
             return null;
         }
-        return recherche(cle,racine);
+        return recherche(cle, racine);
     }
+
     public Element recherche(int cle, Noeud courrant) {
         Element e1 = new Element(1, -1);
         if (courrant.getCle() == cle) {
@@ -83,13 +91,15 @@ public class ArbreBinaire
             }
         }
     }
-    public Noeud rechercheNoeud(int cle){
-        if (isVide()){
+
+    public Noeud rechercheNoeud(int cle) {
+        if (isVide()) {
             return null;
         }
         return rechercheNoeud(cle, racine);
     }
-    public Noeud rechercheNoeud(int cle, Noeud courrant){
+
+    public Noeud rechercheNoeud(int cle, Noeud courrant) {
         if (courrant.getCle() == cle) {
             return courrant;
         } else if (courrant.getCle() > cle) {
@@ -107,70 +117,121 @@ public class ArbreBinaire
         }
     }
 
-    public boolean suppression(Element e){
-            if(isVide()){
-                return false;
-            }
-            if(rechercheNoeud(e.getCle())==null){
-                return false;
-            }
-            if(rechercheNoeud(e.getCle()).isFeuille() && rechercheNoeud(e.getCle())!=racine){
-                if(rechercheParent(e.getCle()).getCle()<e.getCle()){
-                    rechercheParent(e.getCle()).setDroite(null);
-                    return true;
-                }
-                else{
-                    rechercheParent(e.getCle()).setGauche(null);
-                    return true;
-                }
-            } else if (rechercheNoeud(e.getCle()).GetGauche()==null) {
-                if(rechercheParent(e.getCle()).getCle()<e.getCle()){
-                    rechercheParent(e.getCle()).setDroite(rechercheNoeud(e.getCle()).GetDroite());
-                    return true;
-                }
-                else{
-                    rechercheParent(e.getCle()).setGauche(rechercheNoeud(e.getCle()).GetDroite());
-                    return true;
-                }
-            } else if (rechercheNoeud(e.getCle()).GetDroite()==null) {
-                if(rechercheParent(e.getCle()).getCle()>e.getCle()){
-                    rechercheParent(e.getCle()).setGauche(rechercheNoeud(e.getCle()).GetGauche());
-                    return true;
-                }
-                else{
-                    rechercheParent(e.getCle()).setDroite(rechercheNoeud(e.getCle()).GetGauche());
-                    return true;
-                }
-            }
-            else{
-                Noeud parent = rechercheParent(e.getCle());
-                if(parent.getCle()<e.getCle()){
-                    parent.setDroite(rechercheMin(parent.GetDroite()));
-                    return true;
-                }
-                else{
-                    parent.setGauche(rechercheMin(parent.GetDroite()));
-                    return true;
-                }
-            }
-
-        }
-
-
-
-    private Noeud rechercheParent(int cle){
-        if(isVide()){
+    public Noeud rechercheNoeudAvecElement(Element e) {
+        if (isVide()) {
             return null;
         }
-        return rechercheParent(cle,racine);
+        return rechercheNoeudAvecElement(e, racine);
     }
-    private Noeud rechercheParent(int cle,Noeud courrant){
 
-        if (courrant.GetGauche()!=null && courrant.GetGauche().getCle()== cle) {
+    public Noeud rechercheNoeudAvecElement(Element e, Noeud courrant) {
+        if (courrant.getContenu() == e) {
+            return courrant;
+        } else if (courrant.getCle() > e.getCle()) {
+            if (courrant.GetGauche() != null) {
+                return rechercheNoeudAvecElement(e, courrant.GetGauche());
+            } else {
+                return null;
+            }
+        } else {
+            if (courrant.GetDroite() != null) {
+                return rechercheNoeudAvecElement(e, courrant.GetDroite());
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public boolean suppression(Element e) {
+        Noeud aSupr = rechercheNoeudAvecElement(e);
+
+        if (isVide()) {
+            return false;
+        }
+        try {
+            if (aSupr == racine) {
+                if (racine.isFeuille()) {
+                    racine = null;
+                    return true;
+                } else if (racine.GetGauche() == null) {
+                    racine = racine.GetDroite();
+                    return true;
+                } else if (racine.GetDroite() == null) {
+                    racine = racine.GetGauche();
+                    return true;
+                } else {
+                    Noeud successeur = rechercheMin(racine.GetDroite());
+                    suppression(successeur.getContenu());
+                    successeur.setGauche(racine.GetGauche());
+                    successeur.setDroite(racine.GetDroite());
+                    racine = successeur;
+                    return true;
+                }
+            }
+            int parentCle = rechercheParent(aSupr.getCle()).getCle();
+            Noeud parent = rechercheParent(aSupr.getCle());
+            System.out.println(aSupr.getCle() + " " + parent.getCle());
+            if (aSupr.isFeuille() && aSupr != racine) {
+                if (parentCle < aSupr.getCle()) {
+                    parent.setDroite(null);
+                    return true;
+                } else {
+                    parent.setGauche(null);
+                    return true;
+                }
+            } else if (rechercheNoeud(aSupr.getCle()).GetGauche() == null) {
+                if (parentCle < aSupr.getCle()) {
+                    parent.setDroite(aSupr.GetDroite());
+                    return true;
+                } else {
+                    parent.setGauche(aSupr.GetDroite());
+                    return true;
+                }
+            } else if (rechercheNoeud(aSupr.getCle()).GetDroite() == null) {
+                if (parentCle > aSupr.getCle()) {
+                    parent.setGauche(aSupr.GetGauche());
+                    return true;
+                } else {
+                    parent.setDroite(aSupr.GetGauche());
+                    return true;
+                }
+            } else {
+
+                if (parent.getCle() < aSupr.getCle()) {
+                    rechercheMin(parent.GetDroite()).setDroite(aSupr.GetDroite());
+                    // System.out.println(parent.GetDroite() + " HERE ");
+                    parent.setDroite(rechercheMin(parent.GetDroite()));
+                    return true;
+                } else {
+
+                    rechercheMin(parent.GetGauche()).setDroite(aSupr.GetDroite());
+                    parent.setGauche(rechercheMin(parent.GetGauche()));
+                    return true;
+                }
+            }
+        } catch (NullPointerException exception) {
+            return false;
+        }
+
+    }
+
+    private Noeud rechercheParent(int cle) {
+        if (isVide()) {
+            return null;
+        }
+        if (cle == racine.getCle()) {
+            return null;
+        }
+        return rechercheParent(cle, racine);
+    }
+
+    private Noeud rechercheParent(int cle, Noeud courrant) {
+
+        if (courrant.GetGauche() != null && courrant.GetGauche().getCle() == cle) {
+            return courrant;
+        } else if (courrant.GetDroite() != null && courrant.GetDroite().getCle() == cle) {
             return courrant;
         }
-        else if (courrant.GetDroite()!=null && courrant.GetDroite().getCle()== cle) {
-            return courrant; }
 
         else if (courrant.getCle() > cle) {
             if (courrant.GetGauche() != null) {
@@ -187,57 +248,60 @@ public class ArbreBinaire
         }
     }
 
-    private Noeud rechercheMin(Noeud n){
+    private Noeud rechercheMin(Noeud n) {
         Noeud min = n;
-        while(min.GetGauche()!=null){
-            min=min.GetGauche();
+        while (min.GetGauche() != null) {
+            min = min.GetGauche();
         }
         return min;
     }
 
-    public int calculHauteur(){
+    public int calculHauteur() {
         return calculHauteur(racine);
     }
-    private int calculHauteur(Noeud courrant){
-        if(isVide()){
+
+    private int calculHauteur(Noeud courrant) {
+        if (isVide()) {
             return 0;
         }
-        if(courrant.isFeuille()){
+        if (courrant.isFeuille()) {
             return 1;
-        } else if (courrant.GetGauche()==null) {
-            return 1+calculHauteur(courrant.GetDroite());
-        }
-        else if (courrant.GetDroite()==null) {
-            return 1+calculHauteur(courrant.GetGauche());
-        }
-        else{
-            return 1+Math.max(calculHauteur(courrant.GetGauche()), calculHauteur(courrant.GetDroite()));
+        } else if (courrant.GetGauche() == null) {
+            return 1 + calculHauteur(courrant.GetDroite());
+        } else if (courrant.GetDroite() == null) {
+            return 1 + calculHauteur(courrant.GetGauche());
+        } else {
+            return 1 + Math.max(calculHauteur(courrant.GetGauche()), calculHauteur(courrant.GetDroite()));
         }
     }
+
     public static void main(String[] args) {
-        Element e = new Element(10,15);
+        Element e = new Element(10, 15);
         Noeud n = new Noeud(e);
-        Element e1 = new Element(20,18);
+        Element e1 = new Element(20, 10);
         Noeud n1 = new Noeud(e1);
-        Element e2 = new Element(20,13);
+        Element e2 = new Element(20, 25);
         Noeud n2 = new Noeud(e2);
-        Element e3 = new Element(20,2);
-        Element e4 = new Element(20,17);
-        Element e5 = new Element(20,20);
-        Element e6 = new Element(20,12);
-        Element e7 = new Element(20,12);
+        Element e3 = new Element(20, 9);
+        Element e4 = new Element(20, 12);
+        // Element e5 = new Element(20, 21);
+        Element e6 = new Element(20, 30);
+        // Element e7 = new Element(20, 12);
         Noeud n3 = new Noeud(e3);
         ArbreBinaire test = new ArbreBinaire(e);
         test.ajout(e1);
         test.ajout(e2);
         test.ajout(e3);
         test.ajout(e4);
-        test.ajout(e5);
-        System.out.println(test.ajout(e6));
-        System.out.println(test.ajout(e7));
-        System.out.println(test.suppression(32));
-        //System.out.println(test.calculHauteur());
+        // test.ajout(e5);
+        // test.ajout(e6);
+        // System.out.println(test.ajout(e6));
+        // System.out.println(test.ajout(e7));
         System.out.println(test.affichage());
+        System.out.println(test.suppression(e2));
+        // System.out.println(test.calculHauteur());
+        System.out.println(test.affichage());
+        // System.out.println(test.rechercheNoeudAvecElement(e));
     }
 
 }
