@@ -196,27 +196,31 @@ public class ArbreBinaire {
                     return true;
                 }
             } else {
+
                 if (aSupr.getCle() < parent.getCle()) {
+
                     Noeud min = rechercheMin(aSupr.GetDroite());
+
                     if (aSupr.GetDroite() == min) {
                         min.setGauche(aSupr.GetGauche());
                         parent.setGauche(min);
                         return true;
                     } else {
                         min.setGauche(aSupr.GetGauche());
-                        min.setDroite(aSupr.GetGauche());
+                        min.setDroite(aSupr.GetDroite());
                         parent.setGauche(min);
                         return true;
                     }
                 } else {
                     Noeud min = rechercheMin(aSupr.GetDroite());
+
                     if (aSupr.GetDroite() == min) {
                         min.setGauche(aSupr.GetGauche());
                         parent.setDroite(min);
                         return true;
                     } else {
                         min.setGauche(aSupr.GetGauche());
-                        min.setDroite(aSupr.GetGauche());
+                        min.setDroite(aSupr.GetDroite());
                         parent.setDroite(min);
                         return true;
                     }
@@ -302,7 +306,7 @@ public class ArbreBinaire {
         Element e4 = new Element(20, 15);
         Element e5 = new Element(20, 9);
         Element e6 = new Element(20, 11);
-        Element e7 = new Element(20, 15);
+        // Element e7 = new Element(20, 15);
         Element e8 = new Element(20, 14);
         Element e9 = new Element(20, 16);
         Element e10 = new Element(20, 21);
@@ -315,17 +319,17 @@ public class ArbreBinaire {
         test.ajout(e4);
         test.ajout(e5);
         test.ajout(e6);
-        test.ajout(e7);
-        // test.ajout(e8);
-        // test.ajout(e9);
+        // test.ajout(e7);
+        test.ajout(e8);
+        test.ajout(e9);
         test.ajout(e10);
         test.ajout(e11);
 
         // System.out.println(test.ajout(e6));
         // System.out.println(test.ajout(e7));
         System.out.println(test.affichage());
-        System.out.println(test.suppression(e3));
-        System.out.println(test.suppression(e4));
+        // System.out.println(test.suppression(e3));
+        System.out.println(test.suppression(e1));
         // System.out.println(test.calculHauteur());
         System.out.println(test.affichage());
         // System.out.println(test.rechercheNoeudAvecElement(e));
