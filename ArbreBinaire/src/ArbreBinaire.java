@@ -170,7 +170,7 @@ public class ArbreBinaire {
             }
             int parentCle = rechercheParent(aSupr.getCle()).getCle();
             Noeud parent = rechercheParent(aSupr.getCle());
-            System.out.println(aSupr.getCle() + " " + parent.getCle());
+
             if (aSupr.isFeuille() && aSupr != racine) {
                 if (parentCle < aSupr.getCle()) {
                     parent.setDroite(null);
@@ -196,20 +196,36 @@ public class ArbreBinaire {
                     return true;
                 }
             } else {
-
-                if (parent.getCle() < aSupr.getCle()) {
-                    rechercheMin(parent.GetDroite()).setDroite(aSupr.GetDroite());
-                    // System.out.println(parent.GetDroite() + " HERE ");
-                    parent.setDroite(rechercheMin(parent.GetDroite()));
-                    return true;
+                if (aSupr.getCle() < parent.getCle()) {
+                    Noeud min = rechercheMin(aSupr.GetDroite());
+                    if (aSupr.GetDroite() == min) {
+                        min.setGauche(aSupr.GetGauche());
+                        parent.setGauche(min);
+                        return true;
+                    } else {
+                        min.setGauche(aSupr.GetGauche());
+                        min.setDroite(aSupr.GetGauche());
+                        parent.setGauche(min);
+                        return true;
+                    }
                 } else {
-
-                    rechercheMin(parent.GetGauche()).setDroite(aSupr.GetDroite());
-                    parent.setGauche(rechercheMin(parent.GetGauche()));
-                    return true;
+                    Noeud min = rechercheMin(aSupr.GetDroite());
+                    if (aSupr.GetDroite() == min) {
+                        min.setGauche(aSupr.GetGauche());
+                        parent.setDroite(min);
+                        return true;
+                    } else {
+                        min.setGauche(aSupr.GetGauche());
+                        min.setDroite(aSupr.GetGauche());
+                        parent.setDroite(min);
+                        return true;
+                    }
                 }
             }
-        } catch (NullPointerException exception) {
+
+        } catch (
+
+        NullPointerException exception) {
             return false;
         }
 
@@ -276,29 +292,40 @@ public class ArbreBinaire {
     }
 
     public static void main(String[] args) {
-        Element e = new Element(10, 15);
+        Element e = new Element(10, 20);
         Noeud n = new Noeud(e);
-        Element e1 = new Element(20, 10);
+        Element e1 = new Element(20, 13);
         Noeud n1 = new Noeud(e1);
         Element e2 = new Element(20, 25);
         Noeud n2 = new Noeud(e2);
-        Element e3 = new Element(20, 9);
-        Element e4 = new Element(20, 12);
-        // Element e5 = new Element(20, 21);
-        Element e6 = new Element(20, 30);
-        // Element e7 = new Element(20, 12);
+        Element e3 = new Element(20, 10);
+        Element e4 = new Element(20, 15);
+        Element e5 = new Element(20, 9);
+        Element e6 = new Element(20, 11);
+        Element e7 = new Element(20, 15);
+        Element e8 = new Element(20, 14);
+        Element e9 = new Element(20, 16);
+        Element e10 = new Element(20, 21);
+        Element e11 = new Element(20, 30);
         Noeud n3 = new Noeud(e3);
         ArbreBinaire test = new ArbreBinaire(e);
         test.ajout(e1);
         test.ajout(e2);
         test.ajout(e3);
         test.ajout(e4);
-        // test.ajout(e5);
-        // test.ajout(e6);
+        test.ajout(e5);
+        test.ajout(e6);
+        test.ajout(e7);
+        // test.ajout(e8);
+        // test.ajout(e9);
+        test.ajout(e10);
+        test.ajout(e11);
+
         // System.out.println(test.ajout(e6));
         // System.out.println(test.ajout(e7));
         System.out.println(test.affichage());
-        System.out.println(test.suppression(e2));
+        System.out.println(test.suppression(e3));
+        System.out.println(test.suppression(e4));
         // System.out.println(test.calculHauteur());
         System.out.println(test.affichage());
         // System.out.println(test.rechercheNoeudAvecElement(e));
