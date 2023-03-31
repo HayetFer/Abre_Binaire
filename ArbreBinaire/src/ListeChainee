@@ -1,0 +1,243 @@
+/*pour compiler le fichier "javac [le nom du fichier *.java]"
+ pour executer le fichier "java [le fichier class qui a été créé]*/
+
+
+public class ListeChainee {
+
+    //attributs
+    protected Cellule tete ;
+    protected Cellule queue  ;
+
+    //constructeur
+
+    public ListeChainee(){
+        tete = null;
+        queue = null ;
+
+    }
+
+
+    //parcourir la liste
+    public ListeChainee( Cellule _tete){
+        tete = _tete ;
+        queue= tete ;
+
+        Cellule temp= tete ;
+        if(temp != null){
+            while(temp.getSuivant() != null){
+                temp=temp.getSuivant() ;
+            }
+            queue = temp ;
+        }
+    }
+
+    //methodes
+
+    public boolean estVide(){
+        return ( tete == null) ;
+    }
+
+    public Cellule getTete(){
+        return tete ;
+    }
+
+    public Cellule getQueue(){
+        return queue ;
+    }
+
+    public void ajouteTete( Object o_tete){
+        Cellule nouv = new Cellule(o_tete) ;
+        if(estVide()){
+            tete = nouv ;
+            queue = nouv ;
+        }
+        else {
+            nouv.setSuivant(tete);
+            tete = nouv ;
+        }
+    }
+
+    public void ajouteQueue(Object o_queue){
+        Cellule nouvelle = new Cellule (o_queue) ;
+
+        if(estVide()){
+            tete = nouvelle ;
+            queue = nouvelle ;
+        }
+        else {
+            queue.setSuivant(nouvelle) ;
+            queue = nouvelle ;
+        }
+    }
+    // pour recuperer les valeurs de la liste cad la cellule
+    public  Object enTete(){
+        if (tete==null){
+            return null ;
+        }
+        return getTete().getContenu() ;
+    }
+
+
+    public Object enQueue (){
+        if ( queue == null){
+            return null ;
+        }
+        return getQueue().getContenu() ;
+    }
+
+    public void retireTete(){
+        if (tete == queue){
+            tete = null ;
+            queue = null ;
+        }else {
+            Cellule ancienneTete = tete ;
+            tete = tete.getSuivant() ;
+            ancienneTete.setSuivant(null);
+        }
+    }
+
+    public void retireQueue(){
+        if(tete == queue){
+            tete = null;
+            queue = null;
+        } else {
+            Cellule tmp = tete;
+            while(tmp.getSuivant() != queue){
+                tmp = tmp.getSuivant();
+            }
+            tmp.setSuivant(null);
+            queue = tmp;
+        }
+
+    }
+
+    public void inserePosAvant(){
+
+    }
+
+    public void inserPosApres(){
+
+    }
+    // fonction gaet suivant on recupere la celle de la liste
+// on vas chercher par exemple la position 3 et on assert une valeur dans cette position et on decale la valeur de la pos3
+    public void inserePos( Object o, int pos){
+        // la premiere position est 1
+        if(pos <= 0){
+            System.out.println("Position non valide");
+        } else {
+            if(pos == 1){
+                //liste est vide ou non
+                ajouteTete(o);
+            } else {
+                Cellule c = new Cellule(o);
+                Cellule avant = null;
+                Cellule apres = tete;
+                int i =1;
+                while(i != pos && apres != null){
+                    avant = apres;
+                    apres = apres.getSuivant();
+                    //////
+                }
+            }
+        }
+
+    }
+
+
+
+
+    public void retirePos( int pos){
+
+    }
+
+
+    public String toString(){
+        if(estVide()){
+            return "nil";
+        }
+        Cellule courante = tete;
+        String resu = courante.toString();
+        courante = courante.getSuivant();
+        while(courante != null){
+            resu = resu + " -> " +courante.toString();
+            courante = courante.getSuivant();
+        }
+        return resu + " -> nil";
+    }
+
+    public static void main (String[] args){
+
+        // creation d'une liste vide
+        System.out.println("Creation d'une liste vide");
+        ListeChainee lc = new ListeChainee();
+        System.out.println("Affichage de la liste vide");
+        System.out.println("lc : "+lc);
+
+        //ajout d'elemnts en tete de la lise
+        lc.ajouteTete("0") ;
+        lc.ajouteTete("1") ;
+        lc.ajouteTete("2") ;
+        lc.ajouteQueue("3");
+
+        System.out.println("Affichage de la liste obtenue apres ajout de tetes");
+        System.out.println("lc : "+lc);
+
+        
+       /* //retrait de l'element en tete de la liste
+        lc.retireTete();
+        System.out.println("Affichage de la liste obtenue apres retrait tete");
+        System.out.println("lc : "+lc);
+
+        //retrait de l'element en queue de la liste
+        lc.retireQueue();
+        System.out.println("Affichage de la liste obtenue apres retrait queue ");
+        System.out.println("lc : "+lc);
+
+        // utilisation des arguments du programme
+         System.out.println("initialisation avec ajouteTete");
+        int i=0;
+        while(i < args.length) {
+        lc.ajouteTete(args[i]);
+        i++;
+        }
+        System.out.println("Affichage de la liste obtenue");
+        System.out.println("lc : "+lc) ;
+
+        // creation d'un deuxieme liste vide
+        System.out.println("Ceation d'une autre liste vide");
+        ListeChainee lc2 = new ListeChainee();
+        System.out.println("initialisation avec ajouteQueue");
+        i=0;
+        while(i < args.length) {
+        lc2.ajouteQueue(args[i]);
+        i++;
+        }
+        System.out.println("Affichage de la liste obtenue");
+        System.out.println("lc2 : "+lc2);
+
+        // creation d'une troisieme liste a partir de la tete de lc2
+        System.out.println("Creation d'une autre liste");
+        ListeChainee lc3 = new ListeChainee(lc2.getTete());
+
+        // affichage de la liste obtenue
+        System.out.println("Affichage de la liste obtenue");
+        System.out.println("lc3 : "+lc3);
+
+        // retrait de la tete de lc :
+        lc.retireTete();
+        System.out.println("Affichage de lc apres retrait de lc.tete");
+        System.out.println("lc : "+lc);
+        System.out.println();
+        
+        // retrait de la queue de lc2 :
+        lc2.retireQueue();
+        System.out.println("Affichage de lc2 et lc3 apres retrait de lc2.queue");
+        System.out.println("lc2 : "+lc2);
+        System.out.println("lc3 : "+lc3);
+        System.out.println();
+
+*/
+    }
+
+
+} 
