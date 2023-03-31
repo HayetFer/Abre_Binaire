@@ -196,38 +196,12 @@ public class ArbreBinaire {
                     return true;
                 }
             } else {
-
-                if (aSupr.getCle() < parent.getCle()) {
-
-                    Noeud min = rechercheMin(aSupr.GetDroite());
-
-                    if (aSupr.GetDroite() == min) {
-                        min.setGauche(aSupr.GetGauche());
-                        parent.setGauche(min);
-                        return true;
-                    } else {
-                        System.out.println(min + " " + aSupr.GetGauche() + aSupr.GetDroite());
-                        rechercheParent(min.getCle()).setGauche(null);
-                        min.setGauche(aSupr.GetGauche());
-                        min.setDroite(aSupr.GetDroite());
-                        parent.setGauche(min);
-                        return true;
-                    }
-                } else {
-                    Noeud min = rechercheMin(aSupr.GetDroite());
-
-                    if (aSupr.GetDroite() == min) {
-                        min.setGauche(aSupr.GetGauche());
-                        parent.setDroite(min);
-                        return true;
-                    } else {
-                        rechercheParent(min.getCle()).setGauche(null);
-                        min.setGauche(aSupr.GetGauche());
-                        min.setDroite(aSupr.GetDroite());
-                        parent.setDroite(min);
-                        return true;
-                    }
-                }
+                Noeud successeur = rechercheMin(aSupr.GetDroite());
+                suppression(successeur.getContenu());
+                successeur.setGauche(aSupr.GetGauche());
+                successeur.setDroite(aSupr.GetDroite());
+                aSupr.setContenu(successeur.getContenu());
+                return true;
             }
 
         } catch (
@@ -314,6 +288,10 @@ public class ArbreBinaire {
         Element e9 = new Element(20, 16);
         Element e10 = new Element(20, 21);
         Element e11 = new Element(20, 30);
+        Element e12 = new Element(20, 23);
+        Element e13 = new Element(20, 22);
+        Element e14 = new Element(20, 29);
+        Element e15 = new Element(20, 31);
         Noeud n3 = new Noeud(e3);
         ArbreBinaire test = new ArbreBinaire(e);
         test.ajout(e1);
@@ -323,16 +301,20 @@ public class ArbreBinaire {
         test.ajout(e5);
         test.ajout(e6);
         // test.ajout(e7);
-        test.ajout(e8);
-        test.ajout(e9);
+        // test.ajout(e8);
+        // test.ajout(e9);
         test.ajout(e10);
         test.ajout(e11);
+        test.ajout(e12);
+        test.ajout(e13);
+        test.ajout(e14);
+        test.ajout(e15);
 
         // System.out.println(test.ajout(e6));
         // System.out.println(test.ajout(e7));
         System.out.println(test.affichage());
         // System.out.println(test.suppression(e3));
-        System.out.println(test.suppression(e3));
+        System.out.println(test.suppression(e));
         // System.out.println(test.calculHauteur());
         System.out.println(test.affichage());
         // System.out.println(test.rechercheNoeudAvecElement(e));
