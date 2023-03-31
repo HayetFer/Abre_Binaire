@@ -149,18 +149,25 @@ public class ArbreBinaire {
             return false;
         }
         try {
-            if (aSupr.GetGauche() == null && aSupr.GetDroite() == null) {
-                Noeud successeur = rechercheMin(aSupr.GetDroite());
-                suppression(successeur.getContenu());
-                successeur.setGauche(aSupr.GetGauche());
-                successeur.setDroite(aSupr.GetDroite());
-                aSupr.setContenu(successeur.getContenu());
-                if (aSupr == racine) {
+            if (aSupr == racine) {
+                if (racine.isFeuille()) {
+                    racine = null;
+                    return true;
+                } else if (racine.GetGauche() == null) {
+                    racine = racine.GetDroite();
+                    return true;
+                } else if (racine.GetDroite() == null) {
+                    racine = racine.GetGauche();
+                    return true;
+                } else {
+                    Noeud successeur = rechercheMin(racine.GetDroite());
+                    suppression(successeur.getContenu());
+                    successeur.setGauche(racine.GetGauche());
+                    successeur.setDroite(racine.GetDroite());
                     racine = successeur;
+                    return true;
                 }
-                return true;
             }
-
             int parentCle = rechercheParent(aSupr.getCle()).getCle();
             Noeud parent = rechercheParent(aSupr.getCle());
 
@@ -172,7 +179,7 @@ public class ArbreBinaire {
                     parent.setGauche(null);
                     return true;
                 }
-            } else if (aSupr.GetGauche() == null) {
+            } else if (rechercheNoeud(aSupr.getCle()).GetGauche() == null) {
                 if (parentCle < aSupr.getCle()) {
                     parent.setDroite(aSupr.GetDroite());
                     return true;
@@ -180,7 +187,7 @@ public class ArbreBinaire {
                     parent.setGauche(aSupr.GetDroite());
                     return true;
                 }
-            } else {
+            } else if (rechercheNoeud(aSupr.getCle()).GetDroite() == null) {
                 if (parentCle > aSupr.getCle()) {
                     parent.setGauche(aSupr.GetGauche());
                     return true;
@@ -188,6 +195,13 @@ public class ArbreBinaire {
                     parent.setDroite(aSupr.GetGauche());
                     return true;
                 }
+            } else {
+                Noeud successeur = rechercheMin(aSupr.GetDroite());
+                suppression(successeur.getContenu());
+                successeur.setGauche(aSupr.GetGauche());
+                successeur.setDroite(aSupr.GetDroite());
+                aSupr.setContenu(successeur.getContenu());
+                return true;
             }
 
         } catch (
